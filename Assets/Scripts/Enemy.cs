@@ -9,6 +9,11 @@ public class Enemy : MonoBehaviour
 
     private float speed;
 
+    public int damage;
+
+    //death Particle Effect
+    public GameObject deathEffect;
+    public GameObject hitEffect;
     
     // Start is called before the first frame update
     void Start()
@@ -28,14 +33,14 @@ public class Enemy : MonoBehaviour
         if(collision.tag == "Player") {
             Player p = collision.gameObject.GetComponent<Player>();
 
-            p.takeDamage(1);
-            Destroy(this.gameObject);
+            p.takeDamage(damage);
+            Instantiate(hitEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, -0.3f), Quaternion.identity);
+            GameObject.Destroy(gameObject);
         }
         if(collision.tag == "Ground")
         {
-            Debug.Log("TEST1");
-            Destroy(this.gameObject);
-            Debug.Log("TEST2");
+            Instantiate(deathEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, -0.3f), Quaternion.identity);
+            GameObject.Destroy(gameObject);
         }
 
 
