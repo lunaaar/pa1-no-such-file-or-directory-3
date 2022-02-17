@@ -37,12 +37,11 @@ public class Enemy : MonoBehaviour
             Instantiate(hitEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, -0.3f), Quaternion.identity);
             GameObject.Destroy(gameObject);
         }
+        
         if(collision.tag == "Ground")
         {
             Instantiate(deathEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, -0.3f), Quaternion.identity);
             GameObject.Destroy(gameObject);
         }
-
-
     }
 }
