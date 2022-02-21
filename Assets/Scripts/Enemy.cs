@@ -1,44 +1,115 @@
+﻿/*
+Copyright 2020 Micah Schuster
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enemy Class.
+/// Contains movement and collision detection for the spawned enemy gameobjects.
+/// </summary>
+[RequireComponent(typeof(Collider))]
 public class Enemy : MonoBehaviour
 {
-    public float minSpeed;
-    public float maxSpeed;
 
-    private float speed;
+    //reference to the player script
+    //Do we really need the enemy to know about the Player?
+    //Depending on the situation, maybe or maybe not.
+    /// <summary>
+    /// Reference to the gameobject that contains Player
+    /// </summary>
+    Player p;
 
+    /// <summary>
+    /// Amount of damage that the enemy does to the player
+    /// </summary>
     public int damage;
 
-    //death Particle Effect
+    /// <summary>
+    /// Minimum possible speed for Enemy movement.
+    /// </summary>
+    public float minSpeed;
+
+    /// <summary>
+    /// Maximum possible speed for Enemy movement.
+    /// </summary>
+    public float maxSpeed;
+
+    /// <summary>
+    /// Chosen speed for this object.
+    /// </summary>
+    private float speed;
+
+    /// <summary>
+    /// GameObject (Prefab) that contains the death particle effect.
+    /// </summary>
     public GameObject deathEffect;
+
+    /// <summary>
+    /// GameObject (Prefab) that contains the death particle effect.
+    /// </summary>
     public GameObject hitEffect;
-    
-    // Start is called before the first frame update
+
+    /// <summary>
+    /// Sets a random speed and gets reference to the player gameobject.
+    /// </summary>
     void Start()
     {
-        //Random value between min and max speed
+        //pick random value between min and max speed
         speed = Random.Range(minSpeed, maxSpeed);
+
+        p = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    /// <summary>
+    /// Updates the gameobject position over time.
+    /// </summary>
+    void Update()
     {
+        //translate this object down at speed
         this.transform.Translate(Vector3.down * speed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Unity collision check. When the rigidbody eneters a trigger it checks for
+    /// if the collider is the player or the ground. Applies appropriate damage
+    /// and/or instantiates particle effects.
+    /// </summary>
+    /// <param name="collision">Collider that was triggered.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player") {
-            Player p = collision.gameObject.GetComponent<Player>();
-
+        if (collision.tag == "Player")
+        {
+            //reduce player health
             p.takeDamage(damage);
             Instantiate(hitEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, -0.3f), Quaternion.identity);
             GameObject.Destroy(gameObject);
         }
-        
-        if(collision.tag == "Ground")
+
+        //destroy enemy if hits the ground
+        if (collision.tag == "Ground")
         {
             Instantiate(deathEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, -0.3f), Quaternion.identity);
             GameObject.Destroy(gameObject);
