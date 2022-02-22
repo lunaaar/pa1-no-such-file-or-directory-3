@@ -82,9 +82,25 @@ public class Spawner : MonoBehaviour
         }
         if (spawnTimer <= 0) {
             //spawn a enemy
+            
             float min = -5f;
             float max = 5f;
-            GameObject enemy = enemies[Random.Range(0, enemies.Length)];
+
+            GameObject enemy;
+
+            //1 in 10 chance of spawning a healthy
+            if (Random.Range(1, 10) == 1)
+            {
+                enemy = enemies[1];
+            }
+            else
+            {
+                enemy = enemies[0];
+            }
+
+
+            //GameObject enemy = enemies[Random.Range(0, enemies.Length)];
+
             float value = Random.Range(min, max);
             Vector3 position = new Vector3(value, 6.5f, 0f);
             Instantiate(enemy,new Vector3(position.x,position.y,0f),Quaternion.identity);

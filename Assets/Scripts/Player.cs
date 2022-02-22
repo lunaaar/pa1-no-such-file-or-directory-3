@@ -143,6 +143,15 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// Heals the player, specifically increased the current health by value.
+    /// </summary>
+    public void healDamage(int value)
+    {
+        health += value;
+        GameManager.instance().updateHealthText(health);
+    }
+
+    /// <summary>
     /// Resets the game to the initial conditions.
     /// </summary>
     public void reset()
