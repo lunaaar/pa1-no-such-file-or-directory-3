@@ -41,6 +41,22 @@ public class Player : MonoBehaviour
     public float speed;
 
     /// <summary>
+    /// Player Dash Speed
+    /// </summary>
+    public float dashSpeed;
+ 
+    /// <summary>
+    /// Time Player must wait between dashses
+    /// </summary>
+    public float dashCooldown;
+ 
+    /// <summary>
+    /// Allows Player to dash when value is == 0
+    /// </summary>
+    private float dashTimer;
+
+
+    /// <summary>
     /// Input value read in using control stick or keyboard.
     /// </summary>
     private float input;
@@ -118,6 +134,24 @@ public class Player : MonoBehaviour
 
         //move player
         rb.velocity = new Vector2(input * speed, rb.velocity.y);
+
+        //player dashes when space bar is pressed and when dash timer is 0
+        if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0)
+        {
+            rb.velocity = new Vector2(input * dashSpeed, rb.velocity.y);
+            dashTimer = dashCooldown;
+            GameManager.instance().updateDashStateText("Charging");
+        }
+        //dash timer decrements when value is != 0
+        if (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+        }
+        else
+        {
+            GameManager.instance().updateDashStateText("Ready");
+        }
+       
     }
 
     /// <summary>

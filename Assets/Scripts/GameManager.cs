@@ -53,6 +53,13 @@ public class GameManager : MonoBehaviour
     public Text healthText;
 
     /// <summary>
+    /// Text object that represents whether the dash mechanic can be used or not.
+    /// Displayed to UI.
+    /// </summary>
+    public Text dashStateText;
+
+
+    /// <summary>
     /// UI panel that is shown then the Player loses all health.
     /// </summary>
     public GameObject deathPanel;
@@ -74,6 +81,15 @@ public class GameManager : MonoBehaviour
     public void updateHealthText(int health){
         healthText.text="x"+health;
     }
+
+    /// <summary>
+    /// Function for updating the Dash UI and letting the player know when they can dash.
+    /// </summary>
+    /// <param name="state">State to update Dash UI to</param>
+    public void updateDashStateText(string state){
+        dashStateText.text=state;
+    }
+
 
     /// <summary>
     /// Function for switching the GameOver UI on and off.
