@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Spawner
   - RightWall
+  - DespawnCloud
   layers:
   - Default
   - TransparentFX
