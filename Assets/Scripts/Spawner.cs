@@ -88,10 +88,15 @@ public class Spawner : MonoBehaviour
 
             GameObject enemy;
 
+            int random = Random.Range(1,10);
             //1 in 10 chance of spawning a healthy
-            if (Random.Range(1, 10) == 1)
+            if (random == 1)
             {
                 enemy = enemies[1];
+            }
+            else if (random < 5) //4 in 10 chance to summon an angry fireball
+            {
+                enemy = enemies[2];
             }
             else
             {

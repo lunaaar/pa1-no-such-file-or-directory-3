@@ -53,6 +53,16 @@ public class GameManager : MonoBehaviour
     public Text healthText;
 
     /// <summary>
+<<<<<<< HEAD
+=======
+    /// Text object that represents whether the dash mechanic can be used or not.
+    /// Displayed to UI.
+    /// </summary>
+    public Text dashStateText; 
+
+
+    /// <summary>
+>>>>>>> 1afdf42c6020fd7e429ea8503764aac2b09d257f
     /// UI panel that is shown then the Player loses all health.
     /// </summary>
     public GameObject deathPanel;

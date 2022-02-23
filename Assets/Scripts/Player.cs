@@ -149,6 +149,7 @@ public class Player : MonoBehaviour
         //player dashes when space bar is pressed and when dash timer is 0
         if (dashTimer <= 0 && input != 0)
         {
+<<<<<<< HEAD
             if (Input.GetKey(KeyCode.Space) && dashDuration > 0)
             {   
                 Debug.Log("DASH");
@@ -162,17 +163,35 @@ public class Player : MonoBehaviour
                 dashTimer = dashCooldown;
                 dashDuration = maxDashDuration;
             }
+=======
+            Debug.Log("DASH");
+            rb.velocity = new Vector2(input * dashSpeed, rb.velocity.y);
+            dashTimer = dashCooldown;
+            GameManager.instance().updateDashStateText("Charging");
+>>>>>>> 1afdf42c6020fd7e429ea8503764aac2b09d257f
         }
         
         dashTimer -= Time.deltaTime;
         if (dashTimer <= 0)
         {
+<<<<<<< HEAD
             Instantiate(dashReadyFX, new Vector3(transform.position.x, transform.position.y - 1, 0f), Quaternion.identity);
             Debug.Log("READY");
             dashTimer = 0;
             //GameManager.instance().updateDashStateText(true);
         }
            
+=======
+            dashTimer -= Time.deltaTime;
+            Debug.Log("TEST");
+        }
+        else
+        {
+            Debug.Log("TEST2");
+            //GameManager.instance().updateDashStateText("Ready");
+        }
+       
+>>>>>>> 1afdf42c6020fd7e429ea8503764aac2b09d257f
     }
 
     /// <summary>
