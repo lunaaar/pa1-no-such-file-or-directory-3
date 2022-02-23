@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     /// Text object that represents whether the dash mechanic can be used or not.
     /// Displayed to UI.
     /// </summary>
-    public Text dashStateText;
+    public Text dashStateText; 
 
 
     /// <summary>
