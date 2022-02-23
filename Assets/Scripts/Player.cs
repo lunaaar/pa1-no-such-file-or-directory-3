@@ -55,6 +55,9 @@ public class Player : MonoBehaviour
     /// </summary>
     private float dashTimer;
 
+    public float maxDashDuration;
+    
+    private float dashDuration;
 
     /// <summary>
     /// Input value read in using control stick or keyboard.
@@ -77,6 +80,13 @@ public class Player : MonoBehaviour
     public GameObject deathFX;
 
     /// <summary>
+    /// Object that contains the dash particle effects.
+    /// </summary>
+    public GameObject dashFX;
+
+    public GameObject dashReadyFX;
+
+    /// <summary>
     /// Rigidbody for player collisions
     /// </summary>
     Rigidbody2D rb;
@@ -96,7 +106,8 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         GameManager.instance().updateHealthText(health);
         GameManager.instance().deathPanelSwitch(false);
-
+        dashTimer = 0;
+        dashDuration = maxDashDuration;
     }
 
     /// <summary>
@@ -136,22 +147,32 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(input * speed, rb.velocity.y);
 
         //player dashes when space bar is pressed and when dash timer is 0
-        if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0)
+        if (dashTimer <= 0 && input != 0)
         {
-            rb.velocity = new Vector2(input * dashSpeed, rb.velocity.y);
-            dashTimer = dashCooldown;
-            GameManager.instance().updateDashStateText("Charging");
+            if (Input.GetKey(KeyCode.Space) && dashDuration > 0)
+            {   
+                Debug.Log("DASH");
+                Instantiate(dashFX, new Vector3(transform.position.x, transform.position.y - 1, 0f), Quaternion.identity);
+                //GameManager.instance().updateDashStateText(false);
+                rb.velocity = new Vector2(input * dashSpeed, rb.velocity.y);
+                dashDuration -= Time.deltaTime;
+            }
+            if (dashDuration <= 0)
+            {
+                dashTimer = dashCooldown;
+                dashDuration = maxDashDuration;
+            }
         }
-        //dash timer decrements when value is != 0
-        if (dashTimer > 0)
+        
+        dashTimer -= Time.deltaTime;
+        if (dashTimer <= 0)
         {
-            dashTimer -= Time.deltaTime;
+            Instantiate(dashReadyFX, new Vector3(transform.position.x, transform.position.y - 1, 0f), Quaternion.identity);
+            Debug.Log("READY");
+            dashTimer = 0;
+            //GameManager.instance().updateDashStateText(true);
         }
-        else
-        {
-            GameManager.instance().updateDashStateText("Ready");
-        }
-       
+           
     }
 
     /// <summary>
