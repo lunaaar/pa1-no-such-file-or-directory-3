@@ -6535,6 +6535,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 1051564408154798465, guid: 6009a6477645042fbab3b5f09d9f99c1, type: 3}
   - {fileID: 4032354037781832675, guid: a0783207f908e874babd50a09b834c89, type: 3}
+  - {fileID: 451807619602038189, guid: 585aa3ade247def47a663ad77c800a34, type: 3}
   timeBetweenSpawns: 1.25
   minSpawnTime: 0.7
   decreaseAmt: 0.1
